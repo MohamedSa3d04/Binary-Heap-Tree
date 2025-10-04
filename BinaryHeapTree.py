@@ -80,6 +80,35 @@ class HeapTree:
             raise Exception("Empty Priority Queue")
     
 
+    def heap_down(self, idx_value):
+        # Useing index of the value we can put it in it's correct location
+        left_idx, right_idx = self.left(idx_value), self.right(idx_value)
+        smallest = idx_value
+
+        # Check if left child exists and is smaller
+        if left_idx < len(self.array) and self.array[left_idx] < self.array[smallest]:
+            smallest = left_idx
+        
+        # Check if right child exists and is smaller
+        if right_idx < len(self.array) and self.array[right_idx] < self.array[smallest]:
+            smallest = right_idx
+        
+        if smallest != idx_value:
+            HeapTree.swap(self.array, smallest, idx_value)
+            self.heap_down(smallest)
+
+    def pop_root(self):
+        # First replace root with last value, then remove it
+        if self.array:
+            root = self.array[0]
+            self.array[0] = self.array[-1] # Replacment
+            del self.array[-1]
+            if self.array:
+                self.heap_down(0) # repair the heap
+            return root
+
+
+
     def __str__(self):
         return str(self.array)
 
