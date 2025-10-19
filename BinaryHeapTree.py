@@ -22,9 +22,10 @@ class HeapTree:
 
     #Here i'm applying the heapify, where we're trying to correctly construct the PQ
     def heapify(self, index):
-        parent_index = self.parent(index)
         if index == 0 :
             return
+        parent_index = self.parent(index)
+        
         
         # Base Case for min heap:
         if self.array[index] > self.array[parent_index] and self.is_min:
@@ -84,15 +85,16 @@ class HeapTree:
         # Useing index of the value we can put it in it's correct location
         left_idx, right_idx = self.left(idx_value), self.right(idx_value)
         smallest = idx_value
+        if left_idx:
+            # Check if left child exists and is smaller
+            if left_idx < len(self.array) and self.array[left_idx] < self.array[smallest]:
+                smallest = left_idx
 
-        # Check if left child exists and is smaller
-        if left_idx < len(self.array) and self.array[left_idx] < self.array[smallest]:
-            smallest = left_idx
-        
-        # Check if right child exists and is smaller
-        if right_idx < len(self.array) and self.array[right_idx] < self.array[smallest]:
-            smallest = right_idx
-        
+        if right_idx:
+            # Check if right child exists and is smaller
+            if right_idx < len(self.array) and self.array[right_idx] < self.array[smallest]:
+                smallest = right_idx
+            
         if smallest != idx_value:
             HeapTree.swap(self.array, smallest, idx_value)
             self.heap_down(smallest)
